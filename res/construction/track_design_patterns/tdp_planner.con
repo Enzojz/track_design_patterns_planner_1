@@ -1,0 +1,69 @@
+local func = require "track_design_patterns/func"
+
+function data()
+    return {
+        type = "ASSET_DEFAULT",
+        description = {
+            name = _("Track Design Patterns Planner"),
+            description = _("")
+        },
+        categories = {"track_design_patterns"},
+        availability = {
+            yearFrom = 1850,
+            yearTo = 0,
+        },
+        order = 5000,
+        skipCollision = true,
+        autoRemovable = false,
+        params = {
+            {
+                key = "group",
+                name = _("Group"),
+                values = {"1", "2", "3", "4", "5"},
+                defaultIndex = 0
+            },
+            {
+                key = "nbTracks",
+                name = _("Number of tracks"),
+                values = func.seqMap({1, 10}, tostring),
+                defaultIndex = 1
+            },
+        },
+        updateFn = function(params)
+            return {
+                models = {
+                    {
+                        id = "track_design_patterns/indicator.mdl",
+                        transf = {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1}
+                    }
+                },
+                edgeLists = func.seqMap({0, params.nbTracks}, function(n)
+                    return
+                        {
+                            type = "TRACK",
+                            alignTerrain = false,
+                            params = {
+                                type = "standard.lua",
+                                catenary = false
+                            },
+                            edges = {
+                                {{0.0, (n * 5) - params.nbTracks * 2.5, 0.0}, {5.0, 0.0, 0.0}},
+                                {{5.0, (n * 5) - params.nbTracks * 2.5, 0.0}, {5.0, 0.0, 0.0}}
+                            },
+                            snapNodes = {0}
+                        }
+                end
+                ),
+                cost = 0,
+                bulldozeCost = 0,
+                maintenanceCost = 0,
+                terrainAlignmentLists = {
+                    {
+                        type = "EQUAL",
+                        faces = {}
+                    }
+                }
+            }
+        end
+    }
+end
