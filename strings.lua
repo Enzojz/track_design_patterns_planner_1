@@ -15,6 +15,7 @@ However, the slope of generated tracks will always be a constant slope since the
 * Livetext is mandatory to run this mod
 
 Changelog
+1.2 Fixed altitude calculate error in some cases
 1.1 Fixed erroneous curves when two markers form a sharpe angle or an U-turn.
 ]]
 
